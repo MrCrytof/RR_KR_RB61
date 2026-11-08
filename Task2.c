@@ -54,6 +54,47 @@ void print(double **Arr, int N, char name);
  */
 void clear_memory(double **Arr, int N);
 
+int main() {
+
+    int N;
+
+    printf("Enter matrix size N: ");
+    if (scanf("%d", &N) != 1 || N <= 0) {
+        printf("Error: N must be greater than 0.\n");
+        return 1;
+    }
+
+    // Виділення пам'яті для матриць A та B
+    double **A = memory_alloc(N);
+    double **B = memory_alloc(N);
+
+    if (A == NULL || B == NULL) {
+        printf("Memory allocation error.\n");
+
+        if (A != NULL) clear_memory(A, N);
+        if (B != NULL) clear_memory(B, N);
+
+        return 1;
+    }
+
+    // Заповнення початкової матриці
+    printf("\n=== Filling matrix A ===\n");
+    fill_arr(A, N);
+
+    // Сортування рядків матриці
+    sort_matrix(A, B, N);
+
+    // Виведення результатів
+    print(A, N, 'A');
+    print(B, N, 'B');
+
+    // Звільнення пам'яті
+    clear_memory(A, N);
+    clear_memory(B, N);
+
+    return 0;
+}
+
 // Виділення пам'яті для матриці
 double **memory_alloc(int N) {
     double **Arr = (double **)malloc(N * sizeof(double *));
@@ -143,45 +184,4 @@ void clear_memory(double **Arr, int N) {
     }
 
     free(Arr);
-}
-
-int main() {
-
-    int N;
-
-    printf("Enter matrix size N: ");
-    if (scanf("%d", &N) != 1 || N <= 0) {
-        printf("Error: N must be greater than 0.\n");
-        return 1;
-    }
-
-    // Виділення пам'яті для матриць A та B
-    double **A = memory_alloc(N);
-    double **B = memory_alloc(N);
-
-    if (A == NULL || B == NULL) {
-        printf("Memory allocation error.\n");
-
-        if (A != NULL) clear_memory(A, N);
-        if (B != NULL) clear_memory(B, N);
-
-        return 1;
-    }
-
-    // Заповнення початкової матриці
-    printf("\n=== Filling matrix A ===\n");
-    fill_arr(A, N);
-
-    // Сортування рядків матриці
-    sort_matrix(A, B, N);
-
-    // Виведення результатів
-    print(A, N, 'A');
-    print(B, N, 'B');
-
-    // Звільнення пам'яті
-    clear_memory(A, N);
-    clear_memory(B, N);
-
-    return 0;
 }
